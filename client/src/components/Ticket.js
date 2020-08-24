@@ -1,5 +1,5 @@
 import React from 'react'
-import { ListItem, List, ListItemText, Tooltip, Zoom } from '@material-ui/core'
+import { ListItem, List, ListItemText, Tooltip, Zoom, ListSubheader, Divider, withWidth, Button } from '@material-ui/core'
 
 
 function Ticket(props) {
@@ -8,11 +8,17 @@ function Ticket(props) {
             <h1>tickets</h1>
             <List>
                 {props.tickets.map((item) =>
-                    <Tooltip key={item.id} title={item.userEmail} arrow TransitionComponent={Zoom}>
-                        <ListItem key={item.id} style={{ textAlign: 'center' }}>
-                            <ListItemText primary={item.content} secondary={item.title} />
-                        </ListItem>
-                    </Tooltip>
+                    <>
+                        <Tooltip key={item.id} title={`${new Date(item.creationTime)}`} arrow TransitionComponent={Zoom}>
+                            <ListItem key={item.id} >
+                                <ListItemText primary={item.title} secondary={item.content} />
+                            </ListItem>
+                        </Tooltip>
+                        <ListSubheader disableGutters={true} disableSticky={true} component="div">
+                            <ListItemText secondary={item.userEmail} />
+                        </ListSubheader>
+                        <Divider variant="inset" component="li" />
+                    </>
                 )}
             </List>
         </div>
