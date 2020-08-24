@@ -23,12 +23,11 @@ function App() {
 
   // onChange={filterTickets}
   return (
-    <main>
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+    <main style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
+      <TextField id="outlined-basic" label="Outlined" variant="outlined" autoFocus />
       {tickets ?
         <Ticket tickets={tickets} />
         : null}
-      {/* <Button onClick={getTickets}>get tickets</Button> */}
     </main>
   );
 }
