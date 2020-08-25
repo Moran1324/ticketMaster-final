@@ -16,8 +16,9 @@ function App() {
   useEffect(() => {
     const getTickets = async () => {
       let { data } = await axios.get('/api/tickets');
-      data.forEach((ticket) => ticket.showTicket = true)
+      data.forEach((ticket) => ticket.showTicket = true);
       setTickets(data);
+      console.log(data);
     }
     getTickets();
   }, [])
@@ -26,9 +27,14 @@ function App() {
   const searchFunc = async (searchValue) => {
     if (searchValue) {
       let { data } = await axios.get(`/api/tickets?searchText=${searchValue}`);
-      data.forEach((ticket) => ticket.showTicket = true)
-      setTickets(data)
+      data.forEach((ticket) => ticket.showTicket = true);
+      setTickets(data);
     }
+  }
+
+  // hide ticket function
+  const hideTicket = (target) => {
+    target.showTicket = false;
   }
 
   return (
@@ -37,7 +43,7 @@ function App() {
         onChange={e => searchFunc(e.target.value)}
       />
       {tickets ?
-        <Ticket tickets={tickets} />
+        <Ticket tickets={tickets} hideTicket={hideTicket} />
         : null}
     </main>
   );

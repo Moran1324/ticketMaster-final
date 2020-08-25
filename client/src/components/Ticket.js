@@ -5,6 +5,7 @@ import Label from './Label';
 
 
 function Ticket(props) {
+
     return (
         <div id="container">
             <span>
@@ -16,7 +17,10 @@ function Ticket(props) {
                         <Tooltip key={item.id} title={`${new Date(item.creationTime)}`} arrow TransitionComponent={Zoom}>
                             <ListItem key={item.id} >
                                 <ListItemText primary={item.title} secondary={item.content} />
-                                <Button style={{ textTransform: 'none' }} id='hideTicketButton' variant='text'>Hide</Button>
+                                <Button
+                                    onClick={e => props.hideTicket(item)}
+                                    style={{ textTransform: 'none' }} id='hideTicketButton' variant='text'
+                                >Hide</Button>
                             </ListItem>
                         </Tooltip>
                         <ListSubheader disableGutters={true} disableSticky={true} component="div">
