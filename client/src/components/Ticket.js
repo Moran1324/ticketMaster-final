@@ -19,8 +19,9 @@ function Ticket(props) {
                             <Button
                                 onClick={() => {
                                     setShow(false)
+                                    props.setHideCounter(props.hideCounter + 1)
                                 }}
-                                style={{ textTransform: 'none' }} id='hideTicketButton' variant='text'
+                                style={{ textTransform: 'none' }} className={'hideTicketButton'} variant='text'
                             >Hide</Button>
                         </ListItem>
                     </Tooltip>

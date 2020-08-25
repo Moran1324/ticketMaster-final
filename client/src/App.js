@@ -10,7 +10,8 @@ import { Button, TextField } from '@material-ui/core';
 
 function App() {
 
-  const [tickets, setTickets] = useState()
+  const [tickets, setTickets] = useState();
+  const [hideCounter, setHideCounter] = useState(0);
 
   // load all tickets as component mounts
   useEffect(() => {
@@ -32,18 +33,6 @@ function App() {
   }
 
 
-  // // which tickets to show
-  // const isShown = () => {
-  //   const cloneTickets = tickets.slice();
-  //   cloneTickets.forEach((ticket) => {
-  //     if (ticket.showTicket = true) {
-  //       return true;
-  //     } else return false;
-  //   })
-  //   setTickets(cloneTickets)
-  //   return cloneTickets.showTicket;
-  // }
-
   return (
     <main style={{ display: 'grid', justifyContent: 'center', paddingTop: 10, justifySelf: 'center' }}>
       <TextField style={{ justifySelf: 'center' }} id="searchInput" label="Search" variant="outlined" autoFocus
@@ -52,10 +41,13 @@ function App() {
       {tickets ?
         <>
           <span>
-            <h4 style={{ color: 'gray' }}>Showing {tickets.length} results </h4>
+            <h4 style={{ color: 'gray' }}>Showing {tickets.length} results</h4>
+            {hideCounter > 0 ?
+              <h4 style={{ color: 'gray' }}> ( <span id="hideTicketsCounter">{hideCounter}</span> Hidden )</h4>
+              : null}
           </span>
           {tickets.map((item) =>
-            <Ticket item={item} />
+            <Ticket hideCounter={hideCounter} setHideCounter={setHideCounter} item={item} />
           )}
         </>
         : null}
