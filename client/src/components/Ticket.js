@@ -7,7 +7,9 @@ import Label from './Label';
 function Ticket(props) {
     return (
         <div id="container">
-            <h1>tickets</h1>
+            <span>
+                <h4 style={{ color: 'gray' }}>Showing {props.tickets.length} results </h4>
+            </span>
             <List>
                 {props.tickets.map((item) =>
                     <div className={'ticket'}>
