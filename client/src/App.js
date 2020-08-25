@@ -18,7 +18,6 @@ function App() {
       let { data } = await axios.get('/api/tickets');
       data.forEach((ticket) => ticket.showTicket = true);
       setTickets(data);
-      console.log(data);
     }
     getTickets();
   }, [])
@@ -32,10 +31,18 @@ function App() {
     }
   }
 
-  // hide ticket function
-  const hideTicket = (target) => {
-    target.showTicket = false;
-  }
+
+  // // which tickets to show
+  // const isShown = () => {
+  //   const cloneTickets = tickets.slice();
+  //   cloneTickets.forEach((ticket) => {
+  //     if (ticket.showTicket = true) {
+  //       return true;
+  //     } else return false;
+  //   })
+  //   setTickets(cloneTickets)
+  //   return cloneTickets.showTicket;
+  // }
 
   return (
     <main style={{ display: 'grid', justifyContent: 'center', paddingTop: 10, justifySelf: 'center' }}>
@@ -43,8 +50,16 @@ function App() {
         onChange={e => searchFunc(e.target.value)}
       />
       {tickets ?
-        <Ticket tickets={tickets} hideTicket={hideTicket} />
+        <>
+          <span>
+            <h4 style={{ color: 'gray' }}>Showing {tickets.length} results </h4>
+          </span>
+          {tickets.map((item) =>
+            <Ticket item={item} />
+          )}
+        </>
         : null}
+
     </main>
   );
 }
