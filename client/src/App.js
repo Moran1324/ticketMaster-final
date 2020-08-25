@@ -23,8 +23,8 @@ function App() {
 
   // onChange={filterTickets}
   return (
-    <main style={{ display: 'flex', justifyContent: 'center', paddingTop: 10 }}>
-      <TextField id="outlined-basic" label="Outlined" variant="outlined" autoFocus />
+    <main style={{ display: 'grid', justifyContent: 'center', paddingTop: 10, justifySelf: 'center' }}>
+      <TextField style={{ justifySelf: 'center' }} id="outlined-basic" label="Outlined" variant="outlined" autoFocus />
       {tickets ?
         <Ticket tickets={tickets} />
         : null}
