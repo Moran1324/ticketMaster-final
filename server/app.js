@@ -26,7 +26,7 @@ app.post('/api/tickets/:ticketId/done', async (req, res) => {
     for (let ticket of allTickets) {
         if (ticket.id === req.params.ticketId) {
             ticket.done = true;
-            res.send(`${ticket.title}` + ' is Done');
+            res.send({ updated: true });
         }
     }
     fs.writeFile('./data.json', JSON.stringify(allTickets));
@@ -40,7 +40,7 @@ app.post('/api/tickets/:ticketId/undone', async (req, res) => {
     for (let ticket of allTickets) {
         if (ticket.id === req.params.ticketId) {
             ticket.done = false;
-            res.send(`${ticket.title}` + ' is unDone');
+            res.send({ updated: true });
         }
     }
     fs.writeFile('./data.json', JSON.stringify(allTickets));
