@@ -12,6 +12,7 @@ function App() {
 
   const [tickets, setTickets] = useState()
 
+  // load all tickets as component mounts
   useEffect(() => {
     const getTickets = async () => {
       let { data } = await axios.get('/api/tickets');
@@ -20,11 +21,19 @@ function App() {
     getTickets();
   }, [])
 
+  // get filtered tickets from server by search value
+  const searchFunc = async (searchValue) => {
+    if (searchValue) {
+      let { data } = await axios.get(`/api/tickets?searchText=${searchValue}`);
+      setTickets(data)
+    }
+  }
 
-  // onChange={filterTickets}
   return (
     <main style={{ display: 'grid', justifyContent: 'center', paddingTop: 10, justifySelf: 'center' }}>
-      <TextField style={{ justifySelf: 'center' }} id="outlined-basic" label="Outlined" variant="outlined" autoFocus />
+      <TextField style={{ justifySelf: 'center' }} id="searchInput" label="Search" variant="outlined" autoFocus
+        onChange={e => searchFunc(e.target.value)}
+      />
       {tickets ?
         <Ticket tickets={tickets} />
         : null}

@@ -5,17 +5,16 @@ import Label from './Label';
 
 
 function Ticket(props) {
-
     return (
         <div id="container">
             <h1>tickets</h1>
             <List>
                 {props.tickets.map((item) =>
-                    <>
+                    <div className={'ticket'}>
                         <Tooltip key={item.id} title={`${new Date(item.creationTime)}`} arrow TransitionComponent={Zoom}>
                             <ListItem key={item.id} >
                                 <ListItemText primary={item.title} secondary={item.content} />
-                                <Button>Hide</Button>
+                                <Button style={{ textTransform: 'none' }} id='hideTicketButton' variant='text'>Hide</Button>
                             </ListItem>
                         </Tooltip>
                         <ListSubheader disableGutters={true} disableSticky={true} component="div">
@@ -26,7 +25,7 @@ function Ticket(props) {
                             }
                         </ListSubheader>
                         <Divider variant="inset" component="li" />
-                    </>
+                    </div>
                 )}
             </List>
         </div>
