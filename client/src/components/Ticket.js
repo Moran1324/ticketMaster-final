@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Ticket.css';
 import { ListItem, List, ListItemText, Tooltip, Zoom, ListSubheader, Divider, withWidth, Button } from '@material-ui/core'
 import Label from './Label';
@@ -8,6 +8,12 @@ function Ticket(props) {
     const [show, setShow] = useState(true);
 
     const { item } = props;
+
+    useEffect(() => {
+        if (props.hideCounter === 0) {
+            setShow(true);
+        }
+    }, [props.hideCounter])
 
     return (
         <div id="container">

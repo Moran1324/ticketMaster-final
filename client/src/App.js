@@ -32,6 +32,11 @@ function App() {
     }
   }
 
+  // restore hidden and reset counter
+  const restoreHidden = () => {
+    setHideCounter(0);
+  }
+
 
   return (
     <main style={{ display: 'grid', justifyContent: 'center', paddingTop: 10, justifySelf: 'center' }}>
@@ -43,7 +48,11 @@ function App() {
           <span>
             <h4 style={{ color: 'gray' }}>Showing {tickets.length} results</h4>
             {hideCounter > 0 ?
-              <h4 style={{ color: 'gray' }}> ( <span id="hideTicketsCounter">{hideCounter}</span> Hidden )</h4>
+              <h4 style={{ color: 'gray' }}>
+                ( <span id="hideTicketsCounter">{hideCounter}</span> Hidden )
+                 <Button style={{ textTransform: 'none' }} id='restoreHideTickets' variant='text'
+                  onClick={restoreHidden}>Restore Hidden</Button>
+              </h4>
               : null}
           </span>
           {tickets.map((item) =>
