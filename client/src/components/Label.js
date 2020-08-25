@@ -2,10 +2,7 @@ import React from 'react'
 import { Button } from '@material-ui/core'
 
 function Label(props) {
-    const check = () => {
-        props.labels.map((label) => console.log(label));
-    }
-    check();
+
     return (
         <div>
             {props.labels.map((label) =>
