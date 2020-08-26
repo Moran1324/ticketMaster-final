@@ -70,6 +70,7 @@ function App() {
             <span>
               <h4 style={{ color: 'gray' }}>
                 Showing
+                {' '}
                 {tickets.length}
                 {' '}
                 results
