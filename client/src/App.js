@@ -35,12 +35,19 @@ function App() {
     setHideCounter(0);
   }
 
+  // sort tickets by date first -> last
+  const sortTicketsByDate = () => {
+    const ticketsClone = tickets.slice();
+    ticketsClone.sort((a, b) => a.creationTime - b.creationTime);
+    setTickets(ticketsClone);
+  }
 
   return (
     <main style={{ display: 'grid', justifyContent: 'center', paddingTop: 15, justifySelf: 'center' }} className={'main'}>
       <TextField style={{ justifySelf: 'center' }} id="searchInput" label="Search" variant="outlined" autoFocus
         onChange={e => searchFunc(e.target.value)}
       />
+      <Button onClick={sortTicketsByDate} style={{ textTransform: 'none' }} className={'sortButton'}>Sort by Date</Button>
       {tickets ?
         <>
           <span>

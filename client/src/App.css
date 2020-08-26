@@ -12,6 +12,11 @@ body {
     display: none;
 }
 
+.sortButton {
+    width: fit-content;
+    justify-self: center;
+}
+
 h4 {
     display: inline;
 }
