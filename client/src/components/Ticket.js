@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ListItem, List, ListItemText, Tooltip, Zoom, ListSubheader, Divider, withWidth, Button } from '@material-ui/core'
 import Label from './Label';
+import ReadMoreAndLess from 'react-read-more-less';
 
 function Ticket(props) {
 
@@ -20,7 +21,17 @@ function Ticket(props) {
                 <List>
                     <Tooltip key={item.id} title={`${new Date(item.creationTime)}`} arrow TransitionComponent={Zoom}>
                         <ListItem key={item.id} >
-                            <ListItemText primary={item.title} secondary={item.content} />
+                            <ListItemText style={{ maxWidth: 'inherit' }} primary={item.title} secondary={
+                                <ReadMoreAndLess
+                                    className="read-more-content"
+                                    charLimit={300}
+                                    readMoreText="Read more"
+                                    readLessText="Read less"
+                                >
+                                    {item.content}
+                                </ReadMoreAndLess>
+                            }
+                            />
                             <Button
                                 onClick={() => {
                                     setShow(false)

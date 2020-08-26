@@ -37,7 +37,7 @@ function App() {
 
 
   return (
-    <main style={{ display: 'grid', justifyContent: 'center', paddingTop: 10, justifySelf: 'center' }}>
+    <main style={{ display: 'grid', justifyContent: 'center', paddingTop: 15, justifySelf: 'center' }} className={'main'}>
       <TextField style={{ justifySelf: 'center' }} id="searchInput" label="Search" variant="outlined" autoFocus
         onChange={e => searchFunc(e.target.value)}
       />
