@@ -20,6 +20,7 @@ app.get('/api/tickets', async (req, res) => {
     }
 })
 
+// mark ticket as done
 app.post('/api/tickets/:ticketId/done', async (req, res) => {
     let allTickets = await fs.readFile('./data.json', { encoding: 'utf-8' });
     allTickets = JSON.parse(allTickets);
@@ -34,6 +35,7 @@ app.post('/api/tickets/:ticketId/done', async (req, res) => {
 
 })
 
+// mark ticket as undone
 app.post('/api/tickets/:ticketId/undone', async (req, res) => {
     let allTickets = await fs.readFile('./data.json', { encoding: 'utf-8' });
     allTickets = JSON.parse(allTickets);
@@ -44,8 +46,23 @@ app.post('/api/tickets/:ticketId/undone', async (req, res) => {
         }
     }
     fs.writeFile('./data.json', JSON.stringify(allTickets));
+})
 
+// reset tickets file
+app.put('/api/tickets/resetdata', async (req, res) => {
+    let allTickets = await fs.readFile('./initial-data.json', { encoding: 'utf-8' });
+    allTickets = JSON.parse(allTickets);
+    fs.writeFile('./data.json', JSON.stringify(allTickets));
+    res.send('Data was Resetted')
+})
 
+// add ticket to current database
+app.post('/api/tickets/newticket', async (req, res) => {
+    let allTickets = await fs.readFile('./data.json', { encoding: 'utf-8' });
+    allTickets = JSON.parse(allTickets);
+    allTickets.push(req.body);
+    fs.writeFile('./data.json', JSON.stringify(allTickets));
+    res.send("Submitted");
 })
 
 module.exports = app;

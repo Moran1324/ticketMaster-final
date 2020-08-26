@@ -36,8 +36,11 @@ export default function SimpleModal(props) {
     // getModalStyle is not a pure function, we roll the style only on the first render
     const [modalStyle] = useState(getModalStyle);
     const [open, setOpen] = useState(false);
-    const [input, setInput] = useState();
-    const [step, setStep] = useState(1);
+    const [submitted, setSubmitted] = useState(false);
+    const [titleInput, setTitleInput] = useState()
+    const [contentInput, setContentInput] = useState()
+    const [emailInput, setEmailInput] = useState()
+    const [labelsInput, setLabelsInput] = useState()
 
     const handleOpen = () => {
         setOpen(true);
@@ -45,34 +48,52 @@ export default function SimpleModal(props) {
 
     const handleClose = () => {
         setOpen(false);
-        setStep(1);
+        props.setNewTicket(false);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const currentTime = new Date();
-        const body = {
-            "id": uuidv4(),
-            "winnerName": input,
-            "gameTime": props.gameTime(),
-            "date": `${currentTime.getFullYear()}-${currentTime.getMonth().toString().padStart(2, "0")}-${currentTime.getDate().toString().padStart(2, "0")} ${currentTime.getHours().toString().padStart(2, "0")}:${currentTime.getMinutes().toString().padStart(2, "0")}:${currentTime.getSeconds().toString().padStart(2, "0")}`
-        };
-        const res = await axios.post('/api/v1/records', body);
-        if (res.data === 'Submitted') {
-            setStep(2);
-            props.getScore();
+        if (labelsInput === undefined) {
+            const body = {
+                "id": uuidv4(),
+                "title": titleInput,
+                "content": contentInput,
+                "userEmail": emailInput,
+                "creationTime": `${Date.now()}`,
+            };
+            const res = await axios.post('/api/tickets/newticket', body);
+            if (res.data === 'Submitted') {
+                setSubmitted(true);
+            }
+        } else {
+            const labelsArr = labelsInput.split(" ")
+            const body = {
+                "id": uuidv4(),
+                "title": titleInput,
+                "content": contentInput,
+                "userEmail": emailInput,
+                "creationTime": Date.now(),
+                "labels": labelsArr
+            };
+            const res = await axios.post('/api/tickets/newticket', body);
+            if (res.data === 'Submitted') {
+                setSubmitted(true);
+            }
         }
-
     };
 
     const body = (
         <div style={modalStyle} className={classes.paper}>
-            {step === 1 ?
+            {!submitted ?
                 <>
-                    <h2 id="simple-modal-title">Winner: {props.winner}</h2>
-                    <h4>{props.gameTime()}</h4>
                     <form onSubmit={handleSubmit}>
-                        <TextField onChange={e => setInput(e.target.value)} label="Enter Your Name" />
+                        <TextField autoFocus className={'newTicketInput'} type={'text'} required={true} onChange={e => setTitleInput(e.target.value)} label="Enter Ticket Title" />
+                        <br></br>
+                        <TextField className={'newTicketInput'} type={'text'} required={true} onChange={e => setContentInput(e.target.value)} label="Enter Ticket Content" />
+                        <br></br>
+                        <TextField className={'newTicketInput'} type={'email'} required={true} onChange={e => setEmailInput(e.target.value)} label="Enter Your Email" />
+                        <br></br>
+                        <TextField className={'newTicketInput'} type={'text'} onChange={e => setLabelsInput(e.target.value)} label="Enter Ticket Labels With Spaces in Between (Optional)" />
                         <br></br>
                         <Button
                             type="submit"
@@ -85,7 +106,7 @@ export default function SimpleModal(props) {
                 </>
                 :
                 <>
-                    <h1>Thanks {input}!</h1>
+                    <h1>Thank You!</h1>
                     <p>Your Data has been Submitted</p>
                 </>
             }
@@ -94,6 +115,14 @@ export default function SimpleModal(props) {
 
     useEffect(() => {
         handleOpen();
+        return () => {
+            const getTickets = async () => {
+                let { data } = await axios.get('/api/tickets');
+                data.forEach((ticket) => ticket.done = false)
+                props.setTickets(data);
+            }
+            getTickets();
+        }
     }, [])
 
     return (
@@ -111,4 +140,3 @@ export default function SimpleModal(props) {
     );
 }
 
-// export default MyModal

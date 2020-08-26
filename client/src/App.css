@@ -44,6 +44,10 @@ box-shadow: 5px 10px 10px 1px #888585;
 width: 75vw;
 }
 
+.newTicketInput {
+    width: 400px;
+}
+
 #searchInput {
     width: 30vw;
 }

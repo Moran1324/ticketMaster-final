@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Ticket from './components/Ticket';
+import NewTicketModal from './components/NewTicketModal';
 import axios from 'axios';
 import './App.css';
 import { Button, TextField } from '@material-ui/core';
-
-
-
-
 
 function App() {
 
   const [tickets, setTickets] = useState();
   const [hideCounter, setHideCounter] = useState(0);
+  const [sort, setSort] = useState(true)
+  const [newTicket, setNewTicket] = useState(false);
 
   // load all tickets as component mounts
   useEffect(() => {
@@ -21,9 +20,6 @@ function App() {
       setTickets(data);
     }
     getTickets();
-    return async () => {
-      await axios.put('/api/tickets/resetData');
-    }
   }, [])
 
   // get filtered tickets from server by search value
@@ -42,8 +38,14 @@ function App() {
   // sort tickets by date first -> last
   const sortTicketsByDate = () => {
     const ticketsClone = tickets.slice();
-    ticketsClone.sort((a, b) => a.creationTime - b.creationTime);
+    ticketsClone.sort((a, b) => sort ? a.creationTime - b.creationTime : b.creationTime - a.creationTime);
     setTickets(ticketsClone);
+    setSort(!sort);
+  }
+
+  // handle adding new ticket
+  const handleNewTicket = () => {
+    setNewTicket(true);
   }
 
   return (
@@ -51,6 +53,7 @@ function App() {
       <TextField style={{ justifySelf: 'center' }} id="searchInput" label="Search" variant="outlined" autoFocus
         onChange={e => searchFunc(e.target.value)}
       />
+      <Button onClick={handleNewTicket} style={{ textTransform: 'none' }} className={'newTicketButton'}>Add New Ticket</Button>
       <Button onClick={sortTicketsByDate} style={{ textTransform: 'none' }} className={'sortButton'}>Sort by Date</Button>
       {tickets ?
         <>
@@ -69,7 +72,9 @@ function App() {
           )}
         </>
         : null}
-
+      {newTicket ?
+        <NewTicketModal setNewTicket={setNewTicket} setTickets={setTickets} />
+        : null}
     </main>
   );
 }
