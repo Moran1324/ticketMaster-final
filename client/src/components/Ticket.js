@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import './Ticket.css';
 import { ListItem, List, ListItemText, Tooltip, Zoom, ListSubheader, Divider, withWidth, Button } from '@material-ui/core'
 import Label from './Label';
 
