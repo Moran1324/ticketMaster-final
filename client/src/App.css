@@ -17,6 +17,11 @@ body {
     justify-self: center;
 }
 
+.mainButtons {
+    display: inline-flex;
+    justify-content: center;
+}
+
 .newTicketButton {
     width: fit-content;
     justify-self: center;

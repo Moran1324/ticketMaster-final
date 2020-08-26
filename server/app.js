@@ -1,10 +1,17 @@
 const express = require('express');
 const fs = require('fs').promises;
+const path = require('path');
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../client/build')));
+
+// serve html file from server
+app.get('/', async (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+})
 
 // get all tickets or by search value
 app.get('/api/tickets', async (req, res) => {

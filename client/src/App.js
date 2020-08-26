@@ -23,10 +23,8 @@ function App() {
 
   // get filtered tickets from server by search value
   const searchFunc = async (searchValue) => {
-    if (searchValue) {
       const { data } = await axios.get(`/api/tickets?searchText=${searchValue}`);
       setTickets(data);
-    }
   };
 
   // restore hidden and reset counter
@@ -47,6 +45,21 @@ function App() {
     setNewTicket(true);
   };
 
+  // handle reset database
+  const resetServerData = async () => {
+    const res = await axios.put('/api/tickets/resetdata');
+    if (res.data === 'Data was Resetted') {
+      const getTickets = async () => {
+        const { data } = await axios.get('/api/tickets');
+        data.forEach((ticket) => ticket.done = false);
+        setTickets(data);
+      };
+      getTickets();
+    } else {
+      alert('Server not Responding');
+    }
+  };
+
   return (
     <main
       style={{
@@ -62,8 +75,11 @@ function App() {
         autoFocus
         onChange={(e) => searchFunc(e.target.value)}
       />
-      <Button onClick={handleNewTicket} style={{ textTransform: 'none' }} className="newTicketButton">Add New Ticket</Button>
-      <Button onClick={sortTicketsByDate} style={{ textTransform: 'none' }} className="sortButton">Sort by Date</Button>
+      <div className="mainButtons">
+        <Button onClick={handleNewTicket} style={{ textTransform: 'none' }} className="newTicketButton">Add New Ticket</Button>
+        <Button onClick={sortTicketsByDate} style={{ textTransform: 'none' }} className="sortButton">Sort by Date</Button>
+        <Button onClick={resetServerData} style={{ textTransform: 'none' }} className="sortButton">Reset Data</Button>
+      </div>
       {tickets
         ? (
           <>
