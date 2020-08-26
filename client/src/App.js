@@ -17,9 +17,13 @@ function App() {
   useEffect(() => {
     const getTickets = async () => {
       let { data } = await axios.get('/api/tickets');
+      data.forEach((ticket) => ticket.done = false)
       setTickets(data);
     }
     getTickets();
+    return async () => {
+      await axios.put('/api/tickets/resetData');
+    }
   }, [])
 
   // get filtered tickets from server by search value

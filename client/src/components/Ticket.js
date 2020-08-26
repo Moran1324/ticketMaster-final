@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { ListItem, List, ListItemText, Tooltip, Zoom, ListSubheader, Divider, withWidth, Button } from '@material-ui/core'
+import { ListItem, List, ListItemText, Tooltip, Zoom, ListSubheader, Divider, Button, Checkbox } from '@material-ui/core'
 import Label from './Label';
 import ReadMoreAndLess from 'react-read-more-less';
+import axios from 'axios';
 
 function Ticket(props) {
 
     const [show, setShow] = useState(true);
+    const [checked, setChecked] = useState(false);
 
     const { item } = props;
 
@@ -15,9 +17,22 @@ function Ticket(props) {
         }
     }, [props.hideCounter])
 
+    const handleChange = async (e) => {
+        item.done = e.target.checked;
+        setChecked(e.target.checked);
+        if (e.target.checked) {
+            await axios.post(`/api/tickets/${item.id}/done`)
+        } else {
+            await axios.post(`/api/tickets/${item.id}/undone`)
+        }
+    }
+
     return (
         <div id="container">
-            <div className={show ? 'ticket' : 'hideTicket'}>
+            <div
+                className={show ? 'ticket' : 'hideTicket'}
+                style={checked ? { backgroundColor: 'rgb(8, 133, 50)', color: 'white' } : { backgroundColor: 'rgb(255, 216, 169)' }}
+            >
                 <List>
                     <Tooltip key={item.id} title={`${new Date(item.creationTime)}`} arrow TransitionComponent={Zoom}>
                         <ListItem key={item.id} >
@@ -39,6 +54,7 @@ function Ticket(props) {
                                 }}
                                 style={{ textTransform: 'none' }} className={'hideTicketButton'} variant='text'
                             >Hide</Button>
+                            <Checkbox checked={checked} onChange={handleChange} />
                         </ListItem>
                     </Tooltip>
                     <ListSubheader disableGutters={true} disableSticky={true} component="div">
@@ -51,7 +67,7 @@ function Ticket(props) {
                     <Divider variant="inset" component="li" />
                 </List>
             </div>
-        </div>
+        </div >
     )
 }
 
