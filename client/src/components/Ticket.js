@@ -12,12 +12,14 @@ function Ticket(props) {
 
   const { item } = props;
 
+  // show ticket when hide counter resets
   useEffect(() => {
     if (props.hideCounter === 0) {
       setShow(true);
     }
   }, [props.hideCounter]);
 
+  // udpate server when ticket is checked or unchecked
   const handleChange = async (e) => {
     item.done = e.target.checked;
     setChecked(e.target.checked);
