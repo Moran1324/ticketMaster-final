@@ -12,6 +12,15 @@ function Ticket(props) {
 
   const { item } = props;
 
+  // when done on server, load ticket as done
+  useEffect(() => {
+    if (item.done){
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }, []);
+
   // show ticket when hide counter resets
   useEffect(() => {
     if (props.hideCounter === 0) {

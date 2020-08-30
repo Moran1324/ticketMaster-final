@@ -15,7 +15,7 @@ function App() {
   useEffect(() => {
     const getTickets = async () => {
       const { data } = await axios.get('/api/tickets');
-      data.forEach((ticket) => ticket.done = false);
+      // data.forEach((ticket) => ticket.done = false);
       setTickets(data);
     };
     getTickets();
