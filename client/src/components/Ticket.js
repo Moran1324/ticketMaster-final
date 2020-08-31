@@ -40,12 +40,12 @@ function Ticket(props) {
   };
 
   return (
-    <div id="container">
+    <div className="ticketContainer">
       <div
         className={show ? 'ticket' : 'hideTicket'}
         style={checked ? { backgroundColor: 'rgb(8, 133, 50)', color: 'white' } : { backgroundColor: 'rgb(255, 216, 169)' }}
       >
-        <List>
+        <List className='ticketData' >
           <Tooltip key={item.id} title={`${new Date(item.creationTime)}`} arrow TransitionComponent={Zoom}>
             <ListItem key={item.id}>
               <ListItemText
@@ -54,7 +54,7 @@ function Ticket(props) {
                 secondary={(
                   <ReadMoreAndLess
                     className="read-more-content"
-                    charLimit={300}
+                    charLimit={50}
                     readMoreText="Read more"
                     readLessText="Read less"
                   >
@@ -62,6 +62,16 @@ function Ticket(props) {
                   </ReadMoreAndLess>
                 )}
               />
+            </ListItem>
+          </Tooltip>
+          <ListSubheader disableGutters disableSticky component="div">
+            <ListItemText secondary={item.userEmail} />
+            {item.labels
+              ? <Label labels={item.labels} />
+              : null}
+          </ListSubheader>
+          <Divider variant="inset" component="li" />
+        </List>
               <Button
                 onClick={() => {
                   setShow(false);
@@ -73,17 +83,7 @@ function Ticket(props) {
               >
                 Hide
               </Button>
-              <Checkbox checked={checked} onChange={handleChange} />
-            </ListItem>
-          </Tooltip>
-          <ListSubheader disableGutters disableSticky component="div">
-            <ListItemText secondary={item.userEmail} />
-            {item.labels
-              ? <Label labels={item.labels} />
-              : null}
-          </ListSubheader>
-          <Divider variant="inset" component="li" />
-        </List>
+              <Checkbox checked={checked} onChange={handleChange} className='checkBox' />
       </div>
     </div>
   );
