@@ -5,6 +5,8 @@ const request = require('supertest');
 const full4s = require('@suvelocity/tester');
 const app = require('./app');
 const data = require('./data.json');
+const fs = require('fs').promises;
+
 
 const projectName = '1.Tickets manager backend';
 describe(projectName, () => {
@@ -47,7 +49,8 @@ describe(projectName, () => {
       .expect(200)
 
     expect(body.updated).toBe(true);
-    const updatedData = require('./data.json');
+    let updatedData = await fs.readFile('./data.json', { encoding: 'utf-8' });
+    updatedData = JSON.parse(updatedData)
     expect(updatedData[0].done).toBe(!currentState);
 
     const { body: undoneBody } = await request(app)
@@ -57,7 +60,8 @@ describe(projectName, () => {
       .expect(200)
 
     expect(undoneBody.updated).toBe(true);
-    const updatedData2 = require('./data.json');
+    let updatedData2 = await fs.readFile('./data.json', { encoding: 'utf-8' });
+    updatedData2 = JSON.parse(updatedData2)
     expect(updatedData2[0].done).toBe(currentState);
   });
 })
